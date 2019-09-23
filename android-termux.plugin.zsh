@@ -44,7 +44,7 @@ function pull()  {
     return 1
   fi
 
-  echo "Changing working dir... $OUTPUT_DIR/$LIST_FILE"
+  echo "Changing working dir... $OUTPUT_DIR"
   
   if [ ! -d "$WORKING_DIR" ]; then
     mkdir -p "$WORKING_DIR"
