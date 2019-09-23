@@ -37,6 +37,12 @@ function pull()  {
   local LIST_FILE=${LIST_FILE:-"download-list.txt"}
 
   local WORKING_DIR="$HOME/$OUTPUT_DIR"
+  
+  # Check if url is provided
+  if [ -z "$REQUEST_URL" ]; then
+    echo "Please provide url to start pulling..."
+    exit 127
+  fi
 
   echo "Changing working dir... $OUTPUT_DIR/$LIST_FILE"
   
