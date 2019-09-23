@@ -41,7 +41,7 @@ function pull()  {
   # Check if url is provided
   if [ -z "$REQUEST_URL" ]; then
     echo "Please provide url to start pulling..."
-    exit 127
+    return 1
   fi
 
   echo "Changing working dir... $OUTPUT_DIR/$LIST_FILE"
