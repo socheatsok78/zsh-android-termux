@@ -1,4 +1,33 @@
-# Youtube DL Helper
+#* >>> Welcome >>>
+function andrew() {
+  echo -e "     _              _                   "
+  echo -e "    / \   _ __   __| |_ __ _____      __"
+  echo -e "   / _ \ | '_ \ / _\` | '__/ _ \ \ /\ / /"
+  echo -e "  / ___ \| | | | (_| | | |  __/\ V  V / "
+  echo -e " /_/   \_\_| |_|\__,_|_|  \___| \_/\_/  "
+  echo -e " \n A senior developer is helpful, not all- \n knowing.\n"
+}
+
+function welcome() {
+  if [ `command -v lolcat` ]; then
+    andrew | lolcat;
+  else
+    andrew;
+  fi
+}
+#* <<< Welcome <<<
+
+alias history="fc -il 1"
+alias h="omz_history"
+alias ll="la"
+alias shred="rm -P"
+
+#! >>> Emojoy >>>
+alias shrug="echo '¯\_(ツ)_/¯' | pbcopy";
+alias fight="echo '(ง'̀-'́)ง' | pbcopy";
+#! <<< Emojoy <<<
+
+#! >>> Youtube DL Helper >>>
 function pull()  {
   local CURRENT_DIR=$(pwd)
 
@@ -35,3 +64,7 @@ function pull()  {
   cd $CURRENT_DIR
   echo "Done!"
 }
+#! <<< Youtube DL Helper <<<
+
+# Start
+welcome;
