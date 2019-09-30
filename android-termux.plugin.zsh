@@ -43,6 +43,11 @@ function append_to_list() {
   echo "$URL" >> "$FILE"
 }
 
+function do_movie_download() {
+  echo "Starting to download..."
+  youtube-dl -c -f best --console-title --no-mtime "$@"
+}
+
 function queue() {
   local CURRENT_DIR=$(pwd)
 
@@ -56,12 +61,22 @@ function queue() {
   local WORKING_DIR="$HOME/$OUTPUT_DIR"
 
   if ! list_exist "$REQUEST_URL" "$LIST_FILE"; then
-    #
+    # Add to queue
+    append_to_list "$REQUEST_URL" "$QUEUE_FILE"
   fi
 }
 
-function do_movie_download() {
-  youtube-dl -c -f best --console-title --no-mtime "$@"
+function batch_pull() {
+  local QUEUE_FILE=${QUEUE_FILE:-"download-queue.txt"}
+  echo "Starting queue...\n"
+  
+  while IFS= read -r line
+  do
+    echo "[PROCESSING] $line"
+    pull "$line"
+  done < "$QUEUE_FILE"
+
+  echo "\nQueue completed!"
 }
 
 function pull()  {
@@ -94,22 +109,21 @@ function pull()  {
     touch "$LIST_FILE"
   fi
 
-  echo "Starting to download..."
-
   # youtube-dl -c -f best --console-title --no-mtime "$@"
   if ! do_movie_download "$@"; then
-    # IF download failed
-    if ! list_exist "$REQUEST_URL" "$LIST_FILE"; then
+    # If download failed
+    if ! list_exist "$REQUEST_URL" "$FAIL_FILE"; then
       # Add to failed list
+      append_to_list "$REQUEST_URL" "$FAIL_FILE"
+    fi
+  else
+    # If download success
+    if ! list_exist "$REQUEST_URL" "$LIST_FILE"; then
+      # Add to success list
       append_to_list "$REQUEST_URL" "$LIST_FILE"
     fi
   fi
 
-  # Check for existing download
-  if grep -qxF "$REQUEST_URL" "$LIST_FILE"; then
-  else
-    echo "$REQUEST_URL" >> "$LIST_FILE"
-  fi
 
   cd $CURRENT_DIR
   echo "Done!"
