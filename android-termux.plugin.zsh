@@ -113,17 +113,17 @@ function pull()  {
   fi
 
   # youtube-dl -c -f best --console-title --no-mtime "$@"
-  if ! do_movie_download "$@"; then
-    # If download failed
-    if ! list_exist "$REQUEST_URL" "$FAIL_FILE"; then
-      # Add to failed list
-      append_to_list "$REQUEST_URL" "$FAIL_FILE"
-    fi
-  else
+  if do_movie_download "$@"; then
     # If download success
     if ! list_exist "$REQUEST_URL" "$LIST_FILE"; then
       # Add to success list
       append_to_list "$REQUEST_URL" "$LIST_FILE"
+    fi
+  else
+    # If download failed
+    if ! list_exist "$REQUEST_URL" "$FAIL_FILE"; then
+      # Add to failed list
+      append_to_list "$REQUEST_URL" "$FAIL_FILE"
     fi
   fi
 
