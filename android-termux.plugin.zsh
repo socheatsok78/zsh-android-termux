@@ -28,6 +28,42 @@ alias fight="echo '(ง'̀-'́)ง' | pbcopy";
 #! <<< Emojoy <<<
 
 #! >>> Youtube DL Helper >>>
+# Check for existing download
+function list_exist() {
+  local URL=$1
+  local FILE=$2
+
+  grep -qxF "$URL" "$FILE" > /dev/null 2>&1
+}
+
+function append_to_list() {
+  local URL=$1
+  local FILE=$2
+
+  echo "$URL" >> "$FILE"
+}
+
+function queue() {
+  local CURRENT_DIR=$(pwd)
+
+  local REQUEST_URL=$1
+
+  local OUTPUT_DIR="${OUTPUT_DIR:-"storage/external-1/Movies"}"
+  
+  local QUEUE_FILE=${QUEUE_FILE:-"download-queue.txt"}
+  local LIST_FILE=${LIST_FILE:-"download-list.txt"}
+
+  local WORKING_DIR="$HOME/$OUTPUT_DIR"
+
+  if ! list_exist "$REQUEST_URL" "$LIST_FILE"; then
+    #
+  fi
+}
+
+function do_movie_download() {
+  youtube-dl -c -f best --console-title --no-mtime "$@"
+}
+
 function pull()  {
   local CURRENT_DIR=$(pwd)
 
@@ -35,6 +71,7 @@ function pull()  {
 
   local OUTPUT_DIR="${OUTPUT_DIR:-"storage/external-1/Movies"}"
   local LIST_FILE=${LIST_FILE:-"download-list.txt"}
+  local FAIL_FILE=${FAIL_FILE:-"download-failed.txt"}
 
   local WORKING_DIR="$HOME/$OUTPUT_DIR"
   
@@ -59,7 +96,14 @@ function pull()  {
 
   echo "Starting to download..."
 
-  youtube-dl -c -f best --console-title --no-mtime "$@"
+  # youtube-dl -c -f best --console-title --no-mtime "$@"
+  if ! do_movie_download "$@"; then
+    # IF download failed
+    if ! list_exist "$REQUEST_URL" "$LIST_FILE"; then
+      # Add to failed list
+      append_to_list "$REQUEST_URL" "$LIST_FILE"
+    fi
+  fi
 
   # Check for existing download
   if grep -qxF "$REQUEST_URL" "$LIST_FILE"; then
