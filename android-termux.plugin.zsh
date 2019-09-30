@@ -62,7 +62,10 @@ function queue() {
 
   if ! list_exist "$REQUEST_URL" "$LIST_FILE"; then
     # Add to queue
+    echo "[QUEUED] $REQUEST_URL"
     append_to_list "$REQUEST_URL" "$QUEUE_FILE"
+  else
+    echo "You've already downloaded this video!"
   fi
 }
 
