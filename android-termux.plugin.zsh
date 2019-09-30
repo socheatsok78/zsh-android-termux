@@ -116,5 +116,19 @@ function pull()  {
 }
 #! <<< Youtube DL Helper <<<
 
+function do_android_termux_update() {
+  local PLUGIN_DIR="$ZSH/custom/plugins/android-termux"
+  local CURRENT_DIR=$(pwd)
+
+  cd "$PLUGIN_DIR"
+  if git pull --rebase --stat origin master
+  then
+    welcome
+  else
+    echo 'There was an error updating. Try again later?' 
+  fi
+  cd "$CURRENT_DIR"
+}
+
 # Start
 welcome;
