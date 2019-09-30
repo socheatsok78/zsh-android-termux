@@ -60,7 +60,7 @@ function queue() {
 
   local WORKING_DIR="$HOME/$OUTPUT_DIR"
 
-  if ! list_exist "$REQUEST_URL" "$LIST_FILE"; then
+  if ! list_exist "$REQUEST_URL" "$LIST_FILE" && ! list_exist "$REQUEST_URL" "$QUEUE_FILE"; then
     # Add to queue
     echo "[QUEUED] $REQUEST_URL"
     append_to_list "$REQUEST_URL" "$QUEUE_FILE"
