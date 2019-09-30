@@ -69,6 +69,7 @@ function queue() {
 }
 
 function batch_pull() {
+  local OUTPUT_DIR="${OUTPUT_DIR:-"storage/external-1/Movies"}"
   local QUEUE_FILE=${QUEUE_FILE:-"download-queue.txt"}
   echo "Starting queue...\n"
   
@@ -76,7 +77,7 @@ function batch_pull() {
   do
     echo "[PROCESSING] $line"
     pull "$line"
-  done < "$QUEUE_FILE"
+  done < "$OUTPUT_DIR/$QUEUE_FILE"
 
   echo "\nQueue completed!"
 }
