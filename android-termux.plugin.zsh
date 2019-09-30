@@ -43,6 +43,14 @@ function append_to_list() {
   echo "$URL" >> "$FILE"
 }
 
+function remove_from_list() {
+  local URL=$1
+  local FILE=$2
+
+  echo "Removing from queue..."
+  sed -i "/$URL/d" "$FILE"
+}
+
 function do_movie_download() {
   echo "Starting to download..."
   youtube-dl -c -f best --console-title --no-mtime "$@"
@@ -88,6 +96,7 @@ function pull()  {
   local REQUEST_URL=$1
 
   local OUTPUT_DIR="${OUTPUT_DIR:-"storage/external-1/Movies"}"
+  local QUEUE_FILE=${QUEUE_FILE:-"download-queue.txt"}
   local LIST_FILE=${LIST_FILE:-"download-list.txt"}
   local FAIL_FILE=${FAIL_FILE:-"download-failed.txt"}
 
@@ -119,6 +128,9 @@ function pull()  {
       # Add to success list
       append_to_list "$REQUEST_URL" "$LIST_FILE"
     fi
+
+    # Remove item from queue
+    remove_from_list "$REQUEST_URL" "$QUEUE_FILE"
   else
     # If download failed
     if ! list_exist "$REQUEST_URL" "$FAIL_FILE"; then
