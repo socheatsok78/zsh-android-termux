@@ -48,7 +48,7 @@ function remove_from_list() {
   local FILE=$2
 
   echo "Removing from queue..."
-  sed -i "s~$URL~~g" "$FILE"
+  sed -i "s~^$URL$~~g" "$FILE"
 
   # Remove empty lines
   sed -i '/^$/d' "$FILE"
