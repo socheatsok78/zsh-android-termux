@@ -48,12 +48,11 @@ function remove_from_list() {
   local FILE=$2
 
   echo "Removing from queue..."
-  sed -i "/$URL/d" "$FILE"
   sed -i "s~$URL~~g" "$FILE"
 
   # Remove empty lines
-  sed '/^$/d' filename.txt
-  sed '/./!d' filename.txt
+  sed '/^$/d' "$FILE"
+  sed '/./!d' "$FILE"
 }
 
 function do_movie_download() {
