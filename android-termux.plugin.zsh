@@ -58,14 +58,13 @@ function queue() {
   local QUEUE_FILE=${QUEUE_FILE:-"download-queue.txt"}
   local LIST_FILE=${LIST_FILE:-"download-list.txt"}
 
-  local WORKING_DIR="$HOME/$OUTPUT_DIR"
-
-  if ! list_exist "$REQUEST_URL" "$LIST_FILE" && ! list_exist "$REQUEST_URL" "$QUEUE_FILE"; then
+  if ! list_exist "$REQUEST_URL" "$OUTPUT_DIR/$LIST_FILE" && ! list_exist "$REQUEST_URL" "$OUTPUT_DIR/$QUEUE_FILE"
+  then
     # Add to queue
     echo "[QUEUED] $REQUEST_URL"
-    append_to_list "$REQUEST_URL" "$QUEUE_FILE"
+    append_to_list "$REQUEST_URL" "$OUTPUT_DIR/$QUEUE_FILE"
   else
-    echo "You've already downloaded this video!"
+    echo "You've already downloaded/queued this video!"
   fi
 }
 
