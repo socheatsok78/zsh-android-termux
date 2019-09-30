@@ -49,6 +49,11 @@ function remove_from_list() {
 
   echo "Removing from queue..."
   sed -i "/$URL/d" "$FILE"
+  sed -i "s~$URL~~g" "$FILE"
+
+  # Remove empty lines
+  sed '/^$/d' filename.txt
+  sed '/./!d' filename.txt
 }
 
 function do_movie_download() {
