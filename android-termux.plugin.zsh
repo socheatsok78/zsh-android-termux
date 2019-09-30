@@ -58,7 +58,7 @@ function queue() {
   local QUEUE_FILE=${QUEUE_FILE:-"download-queue.txt"}
   local LIST_FILE=${LIST_FILE:-"download-list.txt"}
 
-  if ! list_exist "$REQUEST_URL" "$OUTPUT_DIR/$LIST_FILE" && ! list_exist "$REQUEST_URL" "$OUTPUT_DIR/$QUEUE_FILE"
+  if ! list_exist "$REQUEST_URL" "$OUTPUT_DIR/$QUEUE_FILE"
   then
     # Add to queue
     echo "[QUEUED] $REQUEST_URL"
